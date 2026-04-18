@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,4 +22,296 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Heading */
+h1 {
+  line-height: 1.2;
+}
+
+
+
+/* Buttons */
+button {
+  cursor: pointer;
+  border: none;
+}
+
+.btn-pink {
+  background-color: #FF3366;
+  color: white;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.btn-pink:hover {
+  background-color: #FF3366;
+}
+
+.btn-blue {
+  background-color: #4338CA;
+  color: white;
+  border-radius: 12px;
+  padding: 12px 24px;
+    font-size: 14px;
+  font-weight: 400;
+
+}
+
+.btn-blue:hover {
+  background-color: #4338ca;
+}
+
+/* Navbar container */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 24px 44px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+}
+
+.nav-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.nav-menu a:hover {
+  color: #FF3366;
+}
+.nav-menu a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Icons */
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cart {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #FF3366;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 999px;
+}
+
+
+/* HERO SECTION--------- */
+
+/* Section */
+.hero {
+  width: 100%;
+  background: white;
+  padding: 20px 54px;
+}
+
+/* Container */
+.hero-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  height: auto;
+}
+
+/* Heading */
+.hero-title {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.hero-title span {
+  color: #FF3366; /* pink */
+}
+
+/* Paragraph */
+.hero-text {
+  color: #6b7280;
+  margin-top: 20px;
+  font-size: 18px;
+
+}
+.highlight{
+    color: #FF3366;
+}
+
+/* Buttons */
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+/* Image */
+.hero-image {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    padding: 30px 20px;
+  }
+
+  .hero-container {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .hero-image {
+    height: 300px;
+  }
+}
+
+
+/* Product Section------------------------ */
+
+/* SECTION */
+.products {
+  padding: 20px 54px;
+  background: #f9fafb;
+}
+
+/* CONTAINER */
+.products-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* TITLE */
+.products-title {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.products-subtitle {
+  margin-top: 10px;
+  color: #6b7280;
+}
+
+/* GRID */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+
+/* CARD */
+.product-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  transition: 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+/* IMAGE */
+.product-image {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+/* BADGE */
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fde047;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* TEXT */
+.product-title {
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.product-price {
+  margin-top: 6px;
+  color: #ef4444;
+  font-weight: bold;
+}
+
+/* BUTTON */
+.product-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .products {
+    padding: 40px 20px;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
 }
