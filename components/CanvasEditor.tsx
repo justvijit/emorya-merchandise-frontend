@@ -4,7 +4,11 @@ import { useEffect, useRef } from "react";
 import { Canvas, FabricImage } from "fabric";
 import { useCanvasStore } from "@/lib/canvas-store";
 
-export default function CanvasEditor() {
+type Props = {
+  product: any; // ✅ NEW
+};
+
+export default function CanvasEditor({ product }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRefInstance = useRef<Canvas | null>(null);
@@ -16,7 +20,6 @@ export default function CanvasEditor() {
 
     const container = containerRef.current;
 
-    // ✅ INIT
     const canvas = new Canvas(canvasRef.current, {
       width: container.clientWidth,
       height: container.clientWidth * (5 / 4),
@@ -24,13 +27,6 @@ export default function CanvasEditor() {
 
     canvasRefInstance.current = canvas;
     setCanvas(canvas);
-
-    // ✅ TRACK OBJECT CHANGES (IMPORTANT)
-    const attachTracking = () => {
-      canvas.on("object:moving", updateData);
-      canvas.on("object:scaling", updateData);
-      canvas.on("object:rotating", updateData);
-    };
 
     const updateData = (e: any) => {
       const obj = e.target;
@@ -48,15 +44,16 @@ export default function CanvasEditor() {
       };
     };
 
-    attachTracking();
+    canvas.on("object:moving", updateData);
+    canvas.on("object:scaling", updateData);
+    canvas.on("object:rotating", updateData);
 
-    // ✅ LOAD BG IMAGE
-    FabricImage.fromURL("/tshirt.png").then((img) => {
+    // ✅ 🔥 FIX: DYNAMIC IMAGE LOAD
+    FabricImage.fromURL(product?.image || "/tshirt.png").then((img) => {
       bgImageRef.current = img;
       updateCanvas();
     });
 
-    // 🔥 RESIZE FUNCTION
     const updateCanvas = () => {
       if (!canvasRefInstance.current || !containerRef.current) return;
 
@@ -66,7 +63,6 @@ export default function CanvasEditor() {
 
       canvas.setDimensions({ width, height });
 
-      // ✅ BG IMAGE
       if (bgImageRef.current) {
         const img = bgImageRef.current;
 
@@ -89,7 +85,6 @@ export default function CanvasEditor() {
         canvas.backgroundImage = img;
       }
 
-      // 🔥 REPOSITION OBJECTS
       canvas.getObjects().forEach((obj) => {
         const data = (obj as any).printifyData;
         if (!data) return;
@@ -108,7 +103,6 @@ export default function CanvasEditor() {
       canvas.renderAll();
     };
 
-    // ✅ DEBOUNCE RESIZE
     let timeout: NodeJS.Timeout;
 
     const handleResize = () => {
@@ -122,7 +116,7 @@ export default function CanvasEditor() {
       window.removeEventListener("resize", handleResize);
       canvas.dispose();
     };
-  }, [setCanvas]);
+  }, [setCanvas, product]); // ✅ IMPORTANT
 
   return (
     <div className="flex justify-center bg-white p-4">

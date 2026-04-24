@@ -1,4 +1,9 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import CustomizeModal from "./CustomizeModal";
+import { useCartStore } from "@/lib/cart-store";
 
 type Product = {
   id: number;
@@ -22,14 +27,14 @@ const products: Product[] = [
     id: 2,
     name: "Premium Cotton Shirt",
     price: "$49.99",
-    image: "/tshirt.png",
+    image: "/greay.jpg",
     type: "cart",
   },
   {
     id: 3,
     name: "Essential Crew Neck",
     price: "$34.99",
-    image: "/tshirt.png",
+    image: "/blue.jpg",
     customizable: true,
     type: "custom",
   },
@@ -37,19 +42,49 @@ const products: Product[] = [
     id: 4,
     name: "Basic Tee Collection",
     price: "$79.99",
-    image: "/tshirt.png",
+    image: "/BlackTshit.png",
     type: "cart",
   },
+{
+    id: 5,
+    name: "Basic Tee Collection",
+    price: "$79.99",
+    image: "/images (2).jpg",
+    type: "cart",
+  },
+
+  {
+    id: 6,
+    name: "Basic Tee Collection",
+    price: "$79.99",
+    image: "/images (1).jpg",
+    type: "cart",
+  },
+  {
+    id: 7,
+    name: "Basic Tee Collection",
+    price: "$79.99",
+    image: "/imageswdw.jpg",
+    type: "cart",
+  },
+
+
+
+
 ];
 
 export default function Products() {
+  const [open, setOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const addToCart = useCartStore((s) => s.addToCart);
+
   return (
     <section className="products">
       <div className="products-container">
-
         <h2 className="products-title">Featured Products</h2>
         <p className="products-subtitle">
-          Discover our collection of premium apparel, ready to customize or wear as is.
+          Discover our collection of premium apparel.
         </p>
 
         <div className="products-grid">
@@ -57,21 +92,28 @@ export default function Products() {
             <div key={item.id} className="product-card">
 
               <div className="product-image">
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-                {item.customizable && (
-                  <span className="badge">Customizable</span>
-                )}
+                <Image src={item.image} alt={item.name} fill style={{ objectFit: "cover" }} />
+                {item.customizable && <span className="badge">Customizable</span>}
               </div>
 
               <h3 className="product-title">{item.name}</h3>
               <p className="product-price">{item.price}</p>
 
               <button
+                onClick={() => {
+                  if (item.type === "custom") {
+                    setSelectedProduct(item); // ✅ FIX
+                    setOpen(true);
+                  } else {
+                    addToCart({
+                      id: item.id,
+                      name: item.name,
+                      price: Number(item.price.replace("$", "")),
+                      image: item.image,
+                      isCustom: false,
+                    });
+                  }
+                }}
                 className={`product-btn ${
                   item.type === "cart" ? "btn-pink" : "btn-blue"
                 }`}
@@ -83,6 +125,11 @@ export default function Products() {
           ))}
         </div>
 
+        <CustomizeModal
+          open={open}
+          onClose={() => setOpen(false)}
+          product={selectedProduct} // ✅ FIX
+        />
       </div>
     </section>
   );

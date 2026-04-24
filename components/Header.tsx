@@ -1,6 +1,18 @@
-import { ShoppingCart, User } from "lucide-react";
+"use client";
 
-const Header = () => {
+import { ShoppingCart, User } from "lucide-react";
+import Link from "next/link";
+import { useCartStore } from "@/lib/cart-store";
+import { useEffect } from "react";
+
+export default function Header() {
+  const count = useCartStore((s) => s.getCount());
+  const loadCart = useCartStore((s) => s.loadCart); // ✅ ADD
+
+  useEffect(() => {
+    loadCart(); // ✅ IMPORTANT
+  }, []);
+
   return (
     <header className="navbar">
       <div className="nav-container">
@@ -8,26 +20,22 @@ const Header = () => {
         <h1 className="nav-logo">EMORYA</h1>
 
         <nav className="nav-menu">
-          <a href="#">Shop</a>
-          <a href="#">Customize</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
+          <a href="/">Shop</a>
+          <a href="/customize">Customize</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
         </nav>
 
-        {/* ICONS */}
         <div className="nav-icons">
-          <User className="" />
+          <User />
 
-          <div className="relative">
-            <ShoppingCart  />
-            <span className="cart-badge">
-              0
-            </span>
-          </div>
+          <Link href="/cart" className="relative">
+            <ShoppingCart />
+            <span className="cart-badge">{count}</span>
+          </Link>
         </div>
+
       </div>
     </header>
   );
-};
-
-export default Header;
+}
